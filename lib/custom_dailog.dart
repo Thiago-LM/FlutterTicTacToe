@@ -6,18 +6,17 @@ class CustomDialog extends StatelessWidget {
   final VoidCallback callback;
   final actionText;
 
-  CustomDialog(this.title, this.content, this.callback,
-      [this.actionText = "Reset"]);
+  CustomDialog(this.title, this.content, this.callback, [this.actionText = "Reset"]);
   @override
   Widget build(BuildContext context) {
-    return new AlertDialog(
-      title: new Text(title),
-      content: new Text(content),
+    return AlertDialog(
+      title: Text(title),
+      content: Text(content),
       actions: <Widget>[
-        new FlatButton(
+        FlatButton(
           onPressed: callback,
           color: Colors.white,
-          child: new Text(actionText),
+          child: Text(actionText),
         )
       ],
     );

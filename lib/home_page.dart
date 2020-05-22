@@ -1,15 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:tictactoe/custom_dailog.dart';
-import 'package:tictactoe/game_button.dart';
+import 'package:flutter/services.dart';
+
+import 'custom_dailog.dart';
+import 'game_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => new _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  
   List<GameButton> buttonsList;
   var player1;
   var player2;
@@ -23,20 +26,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<GameButton> doInit() {
-    player1 = new List();
-    player2 = new List();
+    player1 = List();
+    player2 = List();
     activePlayer = 1;
 
     var gameButtons = <GameButton>[
-      new GameButton(id: 1),
-      new GameButton(id: 2),
-      new GameButton(id: 3),
-      new GameButton(id: 4),
-      new GameButton(id: 5),
-      new GameButton(id: 6),
-      new GameButton(id: 7),
-      new GameButton(id: 8),
-      new GameButton(id: 9),
+      GameButton(id: 1),
+      GameButton(id: 2),
+      GameButton(id: 3),
+      GameButton(id: 4),
+      GameButton(id: 5),
+      GameButton(id: 6),
+      GameButton(id: 7),
+      GameButton(id: 8),
+      GameButton(id: 9),
     ];
     return gameButtons;
   }
@@ -58,9 +61,10 @@ class _HomePageState extends State<HomePage> {
       int winner = checkWinner();
       if (winner == -1) {
         if (buttonsList.every((p) => p.text != "")) {
+          speak('Game Tied');
           showDialog(
               context: context,
-              builder: (_) => new CustomDialog("Game Tied",
+              builder: (_) => CustomDialog("Game Tied",
                   "Press the reset button to start again.", resetGame));
         } else {
           activePlayer == 2 ? autoPlay() : null;
@@ -70,20 +74,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void autoPlay() {
-    var emptyCells = new List();
-    var list = new List.generate(9, (i) => i + 1);
+    var emptyCells = List();
+    var list = List.generate(9, (i) => i + 1);
     for (var cellID in list) {
       if (!(player1.contains(cellID) || player2.contains(cellID))) {
         emptyCells.add(cellID);
       }
     }
 
-    var r = new Random();
-    var randIndex = r.nextInt(emptyCells.length-1);
+    var r = Random();
+    var randIndex = r.nextInt(emptyCells.length - 1);
     var cellID = emptyCells[randIndex];
-    int i = buttonsList.indexWhere((p)=> p.id == cellID);
+    int i = buttonsList.indexWhere((p) => p.id == cellID);
     playGame(buttonsList[i]);
-
   }
 
   int checkWinner() {
@@ -152,14 +155,16 @@ class _HomePageState extends State<HomePage> {
 
     if (winner != -1) {
       if (winner == 1) {
+        speak('Player 1 Won!');
         showDialog(
             context: context,
-            builder: (_) => new CustomDialog("Player 1 Won",
+            builder: (_) => CustomDialog("Player 1 Won",
                 "Press the reset button to start again.", resetGame));
       } else {
+        speak('Player 2 Won!');
         showDialog(
             context: context,
-            builder: (_) => new CustomDialog("Player 2 Won",
+            builder: (_) => CustomDialog("Player 2 Won",
                 "Press the reset button to start again.", resetGame));
       }
     }
@@ -174,48 +179,66 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  static const platform = const MethodChannel('br.com.odawara.FlutterTicTacToe/TemiSDK');
+
+  Future<void> hideTopBar() async {
+    try {
+      await platform.invokeMethod("hideTopBar");
+    } catch (e) {
+      print("Error trying to hide Top Bar: ${e.message}");
+    }
+  }
+
+  Future<void> speak(String word) async {
+    try {
+      await platform.invokeMethod("speak", {"word": word});
+    } catch (e) {
+      print("Error trying to speak: ${e.message}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text("Tic Tac Toe"),
+    hideTopBar();
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Tic Tac Toe"),
         ),
-        body: new Column(
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            new Expanded(
-              child: new GridView.builder(
+            Expanded(
+              child: GridView.builder(
                 padding: const EdgeInsets.all(10.0),
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    childAspectRatio: 1.0,
+                    childAspectRatio: 2.0,
                     crossAxisSpacing: 9.0,
                     mainAxisSpacing: 9.0),
                 itemCount: buttonsList.length,
-                itemBuilder: (context, i) => new SizedBox(
-                      width: 100.0,
-                      height: 100.0,
-                      child: new RaisedButton(
-                        padding: const EdgeInsets.all(8.0),
-                        onPressed: buttonsList[i].enabled
-                            ? () => playGame(buttonsList[i])
-                            : null,
-                        child: new Text(
-                          buttonsList[i].text,
-                          style: new TextStyle(
-                              color: Colors.white, fontSize: 20.0),
-                        ),
-                        color: buttonsList[i].bg,
-                        disabledColor: buttonsList[i].bg,
-                      ),
+                itemBuilder: (context, i) => SizedBox(
+                  width: 100.0,
+                  height: 100.0,
+                  child: RaisedButton(
+                    padding: const EdgeInsets.all(8.0),
+                    onPressed: buttonsList[i].enabled
+                        ? () => playGame(buttonsList[i])
+                        : null,
+                    child: Text(
+                      buttonsList[i].text,
+                      style: TextStyle(color: Colors.white, fontSize: 150.0),
                     ),
+                    color: buttonsList[i].bg,
+                    disabledColor: buttonsList[i].bg,
+                  ),
+                ),
               ),
             ),
-            new RaisedButton(
-              child: new Text(
+            RaisedButton(
+              child: Text(
                 "Reset",
-                style: new TextStyle(color: Colors.white, fontSize: 20.0),
+                style: TextStyle(color: Colors.white, fontSize: 20.0),
               ),
               color: Colors.red,
               padding: const EdgeInsets.all(20.0),

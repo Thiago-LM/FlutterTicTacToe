@@ -1,16 +1,14 @@
-# Flutter TicTacToe Game
+# Flutter Tic Tac Toe for Temi
 
-Build legendary Tic Tac Toe game in flutter.
+A Flutter Tic Tac Toe project adapted to Temi Robot.
 
-### Show some :heart: and star the repo to support the project
+## Screenshots
 
-### Screenshots
+|                        Tic Tac Toe                        |
+| --------------------------------------------------------- |
+|![Tic Tac Toe Game](assets/images/Screenshot_tictactoe.png)|
 
-<img src="ss1.png" height="300em" />
-
-[Watch the video tutorial on YouTube](https://youtu.be/u1KD6Kz0PIQ)
-
-### Created & Maintained By
+## Original creator
 
 [Pawan Kumar](https://github.com/iampawan) ([@imthepk](https://www.twitter.com/imthepk)) ([Youtube](https://www.youtube.com/c/MTechViral))
 ([Insta](https://www.instagram.com/codepur_ka_superhero))
@@ -19,23 +17,19 @@ Build legendary Tic Tac Toe game in flutter.
 >
 > * [PayPal](https://www.paypal.me/imthepk/)
 
-# License
+## Icon made by
 
-    Copyright 2018 Pawan Kumar
-
-    Licensed under the Apache License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
+[Pixel perfect](https://www.flaticon.com/authors/pixel-perfect) from [www.flaticon.com](http://www.flaticon.com/).
 
 ## Getting Started
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+
+For help getting started with Flutter, view our
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
